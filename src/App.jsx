@@ -1,7 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { GlobalStyle } from "./styles/GlobalStyle";
+
+import Home from "./pages/Home";
+
 function App() {
   return (
     <>
-      <h1>SmartBuy - Sua Melhor Escolha!</h1>
+      <GlobalStyle />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
     </>
   );
 }
