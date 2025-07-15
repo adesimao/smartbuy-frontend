@@ -1,18 +1,15 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginSuccess } from "../../redux/authSlice";
-import { loginUser } from "../../services/authService";
+import { registerUser } from "../../services/authService";
 
 import FormContainer from "../../components/Form/Container";
 import Input from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
 import { Link } from "react-router-dom";
 
-function Login() {
+function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,19 +21,28 @@ function Login() {
     setError("");
 
     try {
-      const data = await loginUser(form.email, form.password);
-      dispatch(loginSuccess(data));
-      navigate("/dashboard");
+      await registerUser(form.name, form.email, form.password);
+      navigate("/login");
     } catch (err) {
-      setError("Credenciais inválidas ou erro no servidor.");
+      setError(
+        err?.response?.data?.message || "Erro ao registrar. Tente novamente!"
+      );
     }
   };
 
   return (
     <div style={{ padding: "2rem" }}>
       <FormContainer>
-        <h2>Entrar</h2>
+        <h2>Crie sua conta</h2>
         <form onSubmit={handleSubmit}>
+          <Input
+            type="text"
+            name="name"
+            placeholder="Nome completo"
+            value={form.name}
+            onChange={handleChange}
+            required
+          />
           <Input
             type="email"
             name="email"
@@ -53,9 +59,9 @@ function Login() {
             onChange={handleChange}
             required
           />
-          <Button type="submit">Entrar</Button>
+          <Button type="submit">Cadastrar</Button>
           <p style={{ color: "#333", marginTop: "0.5rem" }}>
-            <Link to='/register'>Não tem uma conta, cadastre-se 👉➡️</Link>
+            <Link to='/login'>Já tem uma conta, faça login 👉➡️</Link>
           </p>
           {error && (
             <p style={{ color: "#dc3545", marginTop: "0.5rem" }}>{error}</p>
@@ -66,4 +72,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
