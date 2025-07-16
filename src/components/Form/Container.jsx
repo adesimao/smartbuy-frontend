@@ -24,7 +24,7 @@ const FormContainer = styled.div`
     text-align: center;
   }
 
-  @media (min-width: 768px;) {
+  @media (min-width: 768px) {
     padding: 3rem 2rem;
   }
 `;
