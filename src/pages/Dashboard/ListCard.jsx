@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-const Card = styled.div`
+const Card = styled(Link)`
+  text-decoration: none;
   padding: 1rem;
   background-color: #fff;
   border-radius: 10px;
@@ -8,6 +10,12 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const Title = styled.h3`
@@ -25,7 +33,7 @@ function ListCard({ list }) {
   const formattedDate = new Date(list.createdAt).toLocaleDateString("pt-PT");
 
   return (
-    <Card>
+    <Card to={`/list/${list._id}`}>
       <Title>{list.title}</Title>
       <DateText>Criada em: {formattedDate}</DateText>
     </Card>
